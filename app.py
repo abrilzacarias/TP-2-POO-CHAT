@@ -1,5 +1,5 @@
 # Importar las bibliotecas necesarias
-from flask import Flask, redirect, url_for, render_template, request
+from flask import Flask, redirect, url_for, render_template, request, make_response
 from flask_socketio import SocketIO
 from claseUsuario import Usuario # Importar la clase Usuario desde claseUsuario.py
 from claseMensaje import Mensaje # Importar la clase Mensaje desde claseMensaje.py
@@ -11,6 +11,7 @@ app = Flask(__name__, template_folder='templates')
 app.config['SECRET_KEY'] = 'tu_clave_secreta'
 # Inicializar SocketIO y permitir solicitudes desde cualquier origen
 socketio = SocketIO(app, cors_allowed_origins="*")
+
 
 # Ruta para manejar la solicitud POST de enviar un mensaje
 @app.route('/enviarMensaje', methods=['POST'])
@@ -25,8 +26,9 @@ def enviarMensaje():
         mensaje = Mensaje(mensajeTexto, 'en servidor') 
         # Envía el mensaje a través del usuario
         usuario.enviarMensaje(mensaje, socketio)
-    return redirect(url_for('chat'))# Redirigir a la página de chat después de enviar el mensaje
-
+    response = make_response(redirect(url_for('chat')))
+    response.headers['Access-Control-Allow-Private-Network'] = 'true'
+    return response
 
 # Ruta principal que renderiza la página de chat
 @app.route('/')

@@ -5,7 +5,7 @@ var mensajes = ""; // Inicializa la variable 'mensajes' para almacenar el histor
 // Espera a que el documento HTML esté completamente cargado antes de ejecutar el código JavaScript
 document.addEventListener("DOMContentLoaded", function () {
   // Establece la conexión Socket.IO al servidor en http://localhost:5000
-  socket = io.connect("http://localhost:5000");
+  socket = io.connect("https://m51ghldl-5000.brs.devtunnels.ms/");
 
   // Escucha el evento 'message' emitido por el servidor Socket.IO
   socket.on("message", function (data) {
